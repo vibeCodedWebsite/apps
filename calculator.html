@@ -1,4 +1,5 @@
 <!-- please ignore the horible format 🙏 -->
+<!-- please ignore the horible format 🙏 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -164,11 +165,35 @@
     .calculator-wrapper {
       display: flex;
     }
+    /* HOME BUTTON */
+    .back-home {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    padding: 10px 18px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.4);
+    color: #00ffcc;
+    text-decoration: none;
+    font-size: 18px;
+    border: 1px solid rgba(0, 255, 150, 0.25);
+    box-shadow: 0 0 12px rgba(0,255,150,0.3);
+    backdrop-filter: blur(6px);
+    transition: 0.25s ease;
+}
+
+.back-home:hover {
+    background: #00ffbb;
+    color: #000;
+    box-shadow: 0 0 25px #00ffbb, 0 0 45px #00ffbb;
+    transform: translateY(-2px);
+}
   </style>
 </head>
 <body>
 
   <div class="calculator-wrapper">
+    <a href="index.html" class="back-home">← Back to Home</a>
     <div class="calc-container">
       <div class="title">CALCULATOR</div>
       <input id="display" readonly>
