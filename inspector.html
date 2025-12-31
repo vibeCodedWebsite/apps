@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>File Inspector</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  font-family: Inter, sans-serif;
+  background: #060606;
+  color: #d0ffd9;
+  padding: 30px;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(0,255,180,0.18), transparent 70%);
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.app {
+  display: flex;
+  justify-content: center;
+}
+
+.panel {
+  width: 460px;
+  background: rgba(0,0,0,0.45);
+  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid rgba(0,255,120,0.25);
+  backdrop-filter: blur(10px);
+}
+
+h2 {
+  margin-top: 0;
+}
+
+button {
+  background: #0f0f0f;
+  color: #00ffcc;
+  border: 1px solid rgba(0,255,120,0.25);
+  border-radius: 12px;
+  padding: 12px;
+  width: 100%;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: #00ffbb;
+  color: #000;
+}
+
+.file-info {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 14px;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(0,255,120,0.15);
+  font-size: 14px;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.label {
+  color: #00ffbb;
+  font-weight: 600;
+}
+
+input[type="file"] {
+  display: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+  <div class="panel">
+    <h2>File Inspector</h2>
+
+    <button id="openFile">Select File</button>
+    <input type="file" id="fileInput">
+
+    <div id="fileInfo" class="file-info" style="display:none;"></div>
+  </div>
+</div>
+
+<script>
+const openFileBtn = document.getElementById("openFile");
+const fileInput = document.getElementById("fileInput");
+const fileInfo = document.getElementById("fileInfo");
+
+openFileBtn.onclick = () => fileInput.click();
+
+fileInput.onchange = () => {
+  if (!fileInput.files.length) return;
+
+  const f = fileInput.files[0];
+
+  const sizeKB = (f.size / 1024).toFixed(2);
+  const sizeMB = (f.size / (1024 ** 2)).toFixed(2);
+  const sizeGB = (f.size / (1024 ** 3)).toFixed(4);
+
+  const ext = f.name.includes(".")
+    ? f.name.split(".").pop().toLowerCase()
+    : "none";
+
+  const lastModified = new Date(f.lastModified);
+
+  fileInfo.style.display = "block";
+  fileInfo.innerHTML = `
+    <div><span class="label">Name:</span> ${f.name}</div>
+    <div><span class="label">Extension:</span> .${ext}</div>
+    <div><span class="label">MIME Type:</span> ${f.type || "Unknown"}</div>
+    <div><span class="label">Size:</span></div>
+    <div>• ${f.size.toLocaleString()} bytes</div>
+    <div>• ${sizeKB} KB</div>
+    <div>• ${sizeMB} MB</div>
+    <div>• ${sizeGB} GB</div>
+    <div><span class="label">Last Modified:</span></div>
+    <div>• ${lastModified.toLocaleDateString()}</div>
+    <div>• ${lastModified.toLocaleTimeString()}</div>
+    <div><span class="label">Readable:</span> ${f.size < 1024**3 ? "Yes" : "Large file"}</div>
+  `;
+};
+</script>
+
+</body>
+</html>
